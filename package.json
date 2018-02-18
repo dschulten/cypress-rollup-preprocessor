@@ -1,9 +1,9 @@
 {
   "name": "@cypress/rollup-preprocessor",
-  "description": "Cypress preprocessor for bundling JavaScript via webpack",
+  "description": "Cypress preprocessor for bundling JavaScript via rollup",
   "version": "0.0.0-development",
   "author": "Dietrich Schulten <ds@escalon.de>",
-  "bugs": "https://github.com/cypress-io/cypress-webpack-preprocessor/issues",
+  "bugs": "https://github.com/cypress-io/cypress-rollup-preprocessor/issues",
   "engines": {
     "node": ">=6.5"
   },
@@ -11,7 +11,7 @@
     "*.js"
   ],
   "private": false,
-  "homepage": "https://github.com/cypress-io/cypress-webpack-preprocessor#readme",
+  "homepage": "https://github.com/cypress-io/cypress-rollup-preprocessor#readme",
   "keywords": [
     "cypress",
     "cypress-plugin",
@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cypress-io/cypress-webpack-preprocessor.git"
+    "url": "https://github.com/dschulten/cypress-rollup-preprocessor.git"
   },
   "scripts": {
     "ban": "ban",
