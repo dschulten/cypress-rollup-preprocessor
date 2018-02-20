@@ -25,11 +25,14 @@ const preprocessor = (rollupConfig) => {
     const filePath = file.filePath
     log('get', filePath)
 
+    console.log('preprocessing ' + filePath)
+
     // since this function can get called multiple times with the same
     // filePath, we return the cached bundle promise if we already have one
     // since we don't want or need to re-initiate rollup for it
     if (bundles[filePath]) {
       log(`already have bundle for ${filePath}`)
+      console.log(`already have bundle for ${filePath}`)
       return bundles[filePath]
     }
 
@@ -62,11 +65,19 @@ const preprocessor = (rollupConfig) => {
     if (file.shouldWatch) {
       watcher = rollup.watch(watchOptions)
       watcher.on('event', (event) => {
-        if (event.code === 'END') {
+        console.log('triggered rebuild:' + event.code)
+        if (event.code === 'END' || event.code === 'FATAL'
+          || event.code === 'ERROR') {
           log('- compile finished for', filePath)
+          console.log('- compile finished for ' + filePath)
           // when the bundling is finished, we call `util.fileUpdated`
           // to let Cypress know to re-run the spec
-          file.emit('rerun')
+          if (event.code === 'FATAL'
+            || event.code === 'ERROR') {
+            bundles[filePath] = undefined
+          } else {
+            file.emit('rerun')
+          }
         }
         // event.code can be one of:
         //   START        — the watcher is (re)starting
@@ -82,9 +93,11 @@ const preprocessor = (rollupConfig) => {
     // bundle promise and stop the watcher via `bundler.close()`
     file.on('close', () => {
       log('close', filePath)
+      console.log('close '+ filePath)
       delete bundles[filePath]
 
       if (watcher) {
+        console.log('stop watcher '+ filePath)
         watcher.close()
       }
     })
